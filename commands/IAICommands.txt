@@ -1,0 +1,16 @@
+## General purpose commands
+# home
+!992330702002000@@
+# read all axes
+!99212078@@
+
+
+## Sequential press position commands
+# starting positions
+# x
+!992340100140014001400004F00@@
+# y
+!992340200140014001400011770@@
+!9923402001400140014000128F8@@
+# z
+!9923404001400140014000159F0@@
