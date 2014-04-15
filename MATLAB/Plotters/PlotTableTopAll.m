@@ -40,7 +40,8 @@ for trial = trialRange(1):trialRange(end)
         PlotTableTopHystheresis(2, alData, varargPlot{:});
         PlotTableTopSkinPosition(3, alData, varargPlotPos{:});
     elseif strcmp(trialType, 'recfield')
-        PlotTableTopReceptiveField(1, alData, varargPlot{:});
+        PlotTableTopSkinNano17(1, alData, varargPlot{:});
+        PlotTableTopReceptiveField(2, alData, varargPlot{:});
     else
         error('PlotTableTopAll:UnknownTrialType', ['Cannot plot data for the specified trial type: ', trialType, '.']);
     end
