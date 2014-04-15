@@ -1,0 +1,10 @@
+/**
+ * \brief The iCub IAITableTop is a YARP module to control a IAI TableTop 3-axis robot.
+ * \author Francesco Giovannini (francesco.giovannini@iit.it)
+ * \file
+ */
+ 
+/**
+ * \mainpage iCub IAITableTop Documentation
+ * This is the iCub IAITableTop project documentation resulting from automatic parsing of doxygen comments in the code.
+ */
