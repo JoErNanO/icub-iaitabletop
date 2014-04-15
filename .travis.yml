@@ -1,0 +1,27 @@
+language: cpp
+
+compiler:
+  - gcc
+  - clang
+
+env:
+  - TRAVIS_BUILD_TYPE=Debug
+  - TRAVIS_BUILD_TYPE=Release
+
+cache: apt
+
+install:
+  # Install icub
+  - sudo sh -c 'echo "deb http://www.icub.org/ubuntu precise contrib/science" > /etc/apt/sources.list.d/icub.list'
+  - sudo apt-get update
+  - sudo apt-get --force-yes install icub
+
+before_script:
+  - cmake --version
+  - mkdir build
+  - cd build
+  - cmake .. -DCMAKE_BUILD_TYPE=${TRAVIS_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=$(pwd)/../install
+
+script:
+  - make
+  - make install
