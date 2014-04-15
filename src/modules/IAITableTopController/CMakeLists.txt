@@ -46,5 +46,13 @@ list(APPEND TARG_LINK_LIBS icubmod)
     
 add_executable(${MODULENAME} ${INC_HEADERS} ${INC_SOURCES})
 target_link_libraries(${MODULENAME} ${YARP_LIBRARIES} ${TARG_LINK_LIBS})
-install(TARGETS ${MODULENAME} DESTINATION bin)
+
+
+if(WIN32)
+    install(TARGETS ${PROJECT_NAME} DESTINATION bin/${CMAKE_BUILD_TYPE})
+else(WIN32)
+    install(TARGETS ${MODULENAME} DESTINATION bin)
+endif(WIN32)
+
+icubcontrib_add_uninstall_target()
 # ###########################################################################
