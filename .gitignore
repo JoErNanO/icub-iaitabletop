@@ -2,20 +2,31 @@
 *.slo
 *.lo
 *.o
-*.obj
 
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Compiled Static libraries
 *.lai
 *.la
 *.a
-*.lib
 
-# Executables
-*.exe
-*.out
-*.app
+# Temp files
+*~
+*.swp
+
+# Build directory
+build
+
+# Documentation directory
+doc
+
+# Merge files
+*.orig
+
+# Cmake files
+*_thrift.cmake
+
+# Matlab figures
+MATLAB/Images/*
