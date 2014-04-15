@@ -1,0 +1,48 @@
+<module>
+    <name>IAITableTopController</name>
+    <description>The IAITableTopController is a module which controls the position of the IAI TableTop robot. This module also cyclically polls the robot position and axis status and this information is output on two yarp ports.</description>
+    <version>1.0</version>
+
+
+    <authors>
+        <author email="francesco.giovannini@iit.it"> Francesco Giovannini </author>
+    </authors>
+
+
+    <arguments>
+        <!-- Module configuration -->
+        <param default="IAITableTopController" desc="The module name."> name </param>
+        <param default="0.1" desc="The module period in seconds."> period </param>
+        
+        <!-- Serial port configuration -->
+        <param default="" desc="The serial port configuration file."> serialPortConfFile </param>
+        
+        <!-- Experiment parameters -->
+        <param default="" desc="The experiment configuration filename."> experimentConfFile </param>
+
+    </arguments>
+
+
+     <data>
+        <output>
+            <type>yarp::sig::Vector</type>
+            <port carrier="tcp">/IAITableTopController/posreader/position:o</port>
+            <description>This port outputs the (X, Y, Z) coordinates of the robot position.</description>
+        </output>
+        
+        <output>
+            <type>yarp::sig::Vector</type>
+            <port carrier="tcp">/IAITableTopController/posreader/status:o</port>
+            <description>This port outputs the (X, Y ,Z) axis status flags.</description>
+        </output>
+        
+        <output>
+            <type>yarp::sig::Vector</type>
+            <port carrier="tcp">/IAITableTopController/controller/experiment/status:o</port>
+            <description>This port outputs the status (step n., time start, time end) of each experiment step. This data is useful when performing data analysis on the recorded signals later on.</description>
+        </output>
+    </data>
+
+
+</module>
+
