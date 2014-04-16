@@ -123,13 +123,17 @@ end
 
 
 %% Compute baselines
-timeInt = [exp(1, 3), exp(1, 4)];
-baselines = cell(2, 1);
+% Mean of first step -> (t_0 >= t_start_1) & (t <= t_end_1)
+baselines = cell(3, 1);
 % Skin
-[~, indexes] = histc(ftipRaw, timeInt);
-baselines{1} = mean(ftipRaw(indexes > 0, 2:end));
-% Nano1[~, indexes] = histc(nano, timeInt);
-baselines{2} = mean(nano(indexes > 0 , 2:end));
+indexes = (ftipRaw(:, 1) >= exp(1, 3)) & (ftipRaw(:, 1) <= exp(1, 4));
+baselines{1} = mean(ftipRaw(indexes, 2:end));
+% Nano17
+indexes = (nano(:, 1) >= exp(1, 3)) & (nano(:, 1) <= exp(1, 4));
+baselines{2} = mean(nano(indexes, 2:end));
+% Pos
+indexes = (pos(:, 1) >= exp(1, 3)) & (pos(:, 1) <= exp(1, 4));
+baselines{3} = mean(pos(indexes, 2:end));
 
 
 %% Find active taxels
