@@ -4,31 +4,40 @@ function PlotTableTopHystheresis(figN, data, varargin)
 
 
 %% Extract data structure
+% Data
 nanovals = data.nano;
 ftipvalsRaw = data.ftipRaw;
+posvals = data.pos;
 expvals = data.exp;
 robotName = data.robot;
+baselines = data.baselines;
+% Plot parameters
+fzIndex = data.fzIndex;
+posIndex = find(std(posvals(:, 2:end)) ~= 0) + 1;
 
 
 %% Extract variable input args
 % Build parser
 p = inputParser;
+% Plot visibility
 defaultVis = 'on';
-validVis = {'on', 'off'};
+validVis = {defaultVis, 'off'};
 checkVis = @(x) any(validatestring(x, validVis));
 addOptional(p, 'Visible', defaultVis, checkVis);
+% Plot type
+defaultPlot = 'nano';
+validPlot = {defaultPlot, 'pos'};
+checkPlot = @(x) any(validatestring(x, validPlot));
+addOptional(p, 'Plot', defaultPlot, checkPlot);
 % Parse
 parse(p, varargin{:});
 
 
 %% Preprocess the data
 % Remove baseline from nano17
-j = find(nanovals(:,1) > 15, 1);
-if ~isempty(j)
-    for i = 2:size(nanovals, 2)
-        nanovals(:, i) = nanovals(:, i) - nanovals(j, i);
-    end
-end
+nanovals(:, 2:end) = bsxfun(@minus, nanovals(:, 2:end), baselines{2});
+% Remove baseline from pos
+posvals(:, 2:end) = bsxfun(@minus, posvals(:, 2:end), baselines{3});
 
 % Find active taxels
 activeTaxels = data.activeTaxels;
@@ -36,6 +45,30 @@ activeTaxels = data.activeTaxels;
 % % Start at time 0
 % nanovals(:, 1) = nanovals(:, 1) - nanovals(1, 1);
 % ftipvalsRaw(:, 1) = ftipvalsRaw(:, 1) - ftipvalsRaw(1, 1);
+
+
+%% Compute plot data
+% Y Axis data
+histYAxisVals = ComputeHystheresisData(ftipvalsRaw, expvals);
+% Extract structures
+meanFirstFtip = histYAxisVals.meanvals.first(2:end-1, activeTaxels);
+meanLastFtip = histYAxisVals.meanvals.last(2:end-1, activeTaxels);
+stdFirstFtip = histYAxisVals.stdvals.first(2:end-1, activeTaxels);
+stdLastFtip = histYAxisVals.stdvals.last(2:end-1, activeTaxels);
+
+% X Axis data
+if strcmpi(p.Results.Plot, 'nano')
+    histXAxisVals = ComputeHystheresisData(nanovals, expvals);
+    meanFirstXAxis = histXAxisVals.meanvals.first(2:end-1, fzIndex);
+    meanLastXAxis = histXAxisVals.meanvals.last(2:end-1, fzIndex);
+    xLabel = 'Force (N)';
+elseif strcmpi(p.Results.Plot, 'pos')
+    histXAxisVals = ComputeHystheresisData(posvals, expvals);
+    meanFirstXAxis = histXAxisVals.meanvals.first(2:end-1, posIndex) / 1000;
+    meanLastXAxis = histXAxisVals.meanvals.last(2:end-1, posIndex) / 1000;
+    xLabel = 'Position (mm)';
+end
+
 
 
 %% Generate color map
@@ -54,27 +87,13 @@ fontsize = 20;
 
 
 %% Plot hystheresis graphs - 1st and 60th second of press
-% Plot parameters
-fzIndex = data.fzIndex;
-
-% Compute plot data
-histFtipvals = ComputeHystheresisData(ftipvalsRaw, expvals);
-histNanovals = ComputeHystheresisData(nanovals, expvals);
-% Extract structures
-meanFirstFtip = histFtipvals.meanvals.first(2:end-1, activeTaxels);
-meanLastFtip = histFtipvals.meanvals.last(2:end-1, activeTaxels);
-stdFirstFtip = histFtipvals.stdvals.first(2:end-1, activeTaxels);
-stdLastFtip = histFtipvals.stdvals.last(2:end-1, activeTaxels);
-meanFirstNano = repmat(histNanovals.meanvals.first(2:end-1, fzIndex), 1, size(meanFirstFtip, 2));
-meanLastNano = repmat(histNanovals.meanvals.last(2:end-1, fzIndex), 1, size(meanFirstFtip, 2));
-
 % First second of tap
 subplot(2, 1, 1);
 hold on
 % plot(histNanovals.meanvals.first(2:end-1, fzIndex), histFtipvals.meanvals.first(2:end-1, activeTaxels), 'b');
 % errorbar(histNanovals.meanvals.first(2:end-1, fzIndex), histFtipvals.meanvals.first(2:end-1, activeTaxels), histFtipvals.stdvals.first(2:end-1, activeTaxels), 'b');
-errorbar(meanFirstNano, meanFirstFtip, stdFirstFtip);
-xlim([min(meanFirstNano(:, 1))-0.1 max(meanFirstNano(:, 1))+0.1]);
+errorbar(meanFirstXAxis, meanFirstFtip, stdFirstFtip);
+xlim([min(meanFirstXAxis(:, 1))-0.05 max(meanFirstXAxis(:, 1))+0.05]);
 % Legend labels
 labels = cell(12, 1);
 for i = 1:size(labels, 1)
@@ -88,15 +107,15 @@ set(gca, 'XDir', 'reverse');
 
 title(['\bf{Nano17 Force} \rm{vs.} \bf{skin} \rm{values for trial n.} ', data.trial, ' (', robotName, ')'], 'FontSize', fontsize);
 ylabel('Raw Skin', 'FontSize', fontsize);
-xlabel('Force (N)', 'FontSize', fontsize);
+xlabel(xLabel, 'FontSize', fontsize);
 
 % Last second of tap
 subplot(2, 1, 2);
 hold on
 % plot(histNanovals.meanvals.last(2:end-1, fzIndex), histFtipvals.meanvals.last(2:end-1, activeTaxels), 'g');
 % errorbar(histNanovals.meanvals.last(2:end-1, fzIndex), histFtipvals.meanvals.last(2:end-1, activeTaxels), histFtipvals.stdvals.last(2:end-1, activeTaxels), 'g');
-errorbar(meanLastNano, meanLastFtip, stdLastFtip);
-xlim([min(meanLastNano(:, 1))-0.1 max(meanLastNano(:, 1))+0.1]);
+errorbar(meanLastXAxis, meanLastFtip, stdLastFtip);
+xlim([min(meanLastXAxis(:, 1))-0.02 max(meanLastXAxis(:, 1))+0.02]);
 % Legend labels
 labels = cell(12, 1);
 for i = 1:size(labels, 1)
@@ -110,7 +129,7 @@ set(gca, 'XDir', 'reverse');
 
 title(['\bf{Nano17 Force} \rm{vs.} \bf{skin} \rm{values for trial n.} ', data.trial, ' (', robotName, ')'], 'FontSize', fontsize);
 ylabel('Raw Skin', 'FontSize', fontsize);
-xlabel('Force (N)', 'FontSize', fontsize);
+xlabel(xLabel, 'FontSize', fontsize);
 
 
 end
@@ -121,6 +140,19 @@ end
 function [res] = ComputeHystheresisData(data, expvals)
 %ComputeHystheresisData Computes the means and standard deviations for the
 %first and last second of each progressive depth experiment step.
+%
+% OUTPUT:
+%           res - structure with fields:
+%               meanvals.first - n-by-1 array of mean values for the first
+%                   second of each step
+%               meanvals.last - n-by-1 array of mean values for the last
+%                   second of each step
+%               stdvals.first - n-by-1 array of std values for the first
+%                   second of each step
+%               stdvals.last - n-by-1 array of std values for the last
+%                   second of each step
+%               where n is the number of experiment steps
+%
 
 %% Compute means of first and last second of tap
 meanValsFirst = zeros(size(expvals, 1), size(data, 2));
