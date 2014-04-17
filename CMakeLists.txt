@@ -69,6 +69,7 @@ include_directories(${ICUB_INCLUDE_DIRS} ${YARP_INCLUDE_DIRS})
 # Project content
 # ###########################################################################
 # Subdirectories
+add_subdirectory(app/)  # Applications and contexts
 add_subdirectory(src/)  # Source code
 # ###########################################################################
 
