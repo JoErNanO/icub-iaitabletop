@@ -13,7 +13,8 @@ robotName = data.robot;
 baselines = data.baselines;
 % Plot parameters
 fzIndex = data.fzIndex;
-posIndex = find(std(posvals(:, 2:end)) ~= 0) + 1;
+% posIndex = find(std(posvals(:, 2:end)) ~= 0) + 1;
+posIndex = fzIndex;
 
 
 %% Extract variable input args
@@ -59,13 +60,13 @@ stdLastFtip = histYAxisVals.stdvals.last(2:end-1, activeTaxels);
 % X Axis data
 if strcmpi(p.Results.Plot, 'nano')
     histXAxisVals = ComputeHystheresisData(nanovals, expvals);
-    meanFirstXAxis = histXAxisVals.meanvals.first(2:end-1, fzIndex);
-    meanLastXAxis = histXAxisVals.meanvals.last(2:end-1, fzIndex);
+    meanFirstXAxis = repmat(histXAxisVals.meanvals.first(2:end-1, fzIndex), 1, size(meanFirstFtip, 2));
+    meanLastXAxis = repmat(histXAxisVals.meanvals.last(2:end-1, fzIndex), 1, size(meanFirstFtip, 2));
     xLabel = 'Force (N)';
 elseif strcmpi(p.Results.Plot, 'pos')
     histXAxisVals = ComputeHystheresisData(posvals, expvals);
-    meanFirstXAxis = histXAxisVals.meanvals.first(2:end-1, posIndex) / 1000;
-    meanLastXAxis = histXAxisVals.meanvals.last(2:end-1, posIndex) / 1000;
+    meanFirstXAxis = repmat(histXAxisVals.meanvals.first(2:end-1, posIndex) / 1000, 1, size(meanFirstFtip, 2));
+    meanLastXAxis = repmat(histXAxisVals.meanvals.last(2:end-1, posIndex) / 1000, 1, size(meanFirstFtip, 2));
     xLabel = 'Position (mm)';
 end
 
@@ -103,7 +104,9 @@ legend(labels{activeTaxels-1}, 'Location', 'SouthEast');
 hold off
 
 set(gca, 'YDir', 'reverse');
-set(gca, 'XDir', 'reverse');
+if strcmpi(p.Results.Plot, 'nano')
+    set(gca, 'XDir', 'reverse');
+end
 
 title(['\bf{Nano17 Force} \rm{vs.} \bf{skin} \rm{values for trial n.} ', data.trial, ' (', robotName, ')'], 'FontSize', fontsize);
 ylabel('Raw Skin', 'FontSize', fontsize);
@@ -125,7 +128,9 @@ legend(labels{activeTaxels-1}, 'Location', 'SouthEast');
 hold off
 
 set(gca, 'YDir', 'reverse');
-set(gca, 'XDir', 'reverse');
+if strcmpi(p.Results.Plot, 'nano')
+    set(gca, 'XDir', 'reverse');
+end
 
 title(['\bf{Nano17 Force} \rm{vs.} \bf{skin} \rm{values for trial n.} ', data.trial, ' (', robotName, ')'], 'FontSize', fontsize);
 ylabel('Raw Skin', 'FontSize', fontsize);
