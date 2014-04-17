@@ -132,7 +132,7 @@ baselines{1} = mean(ftipRaw(indexes, 2:end));
 indexes = (nano(:, 1) >= exp(1, 3)) & (nano(:, 1) <= exp(1, 4));
 baselines{2} = mean(nano(indexes, 2:end));
 % Pos
-indexes = (pos(:, 1) >= exp(1, 3)) & (pos(:, 1) <= exp(1, 4));
+indexes = (pos(:, 1) >= exp(2, 3)) & (pos(:, 1) <= exp(2, 4));
 baselines{3} = mean(pos(indexes, 2:end));
 
 
