@@ -34,10 +34,10 @@ function [res] = LoadTableTopData(trial, varargin)
 trial = sprintf('%05d', trial);
 trialpath = strcat('/dump_', trial);
 
-nanopath = which(['data/nano17', trialpath, '/data.log']);
-skinpathRaw = which(['data/fingertip', trialpath, '/data.log']);
-pospath = which(['data/iaittpos', trialpath, '/data.log']);
-exppath = which(['data/iaittexp', trialpath, '/data.log']);
+nanopath = which(['tabletop/data/nano17', trialpath, '/data.log']);
+skinpathRaw = which(['tabletop/data/fingertip', trialpath, '/data.log']);
+pospath = which(['tabletop/data/iaittpos', trialpath, '/data.log']);
+exppath = which(['tabletop/data/iaittexp', trialpath, '/data.log']);
 
 %% Check for the existence of the data
 if ~exist(nanopath, 'file')
