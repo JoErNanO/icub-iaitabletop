@@ -35,6 +35,14 @@
                color="#FFFFFF" title="Raw values" size="2" type="lines" />
     </plot>
 
+<!-- ** Nano17 data                                                                    -->  
+    <plot gridx="0" gridy="2" hspan="2" vspan="1"
+          title="Fz"
+          size="60" minval="-10" maxval="1"
+          bgcolor="LightSlateGrey">
+        <graph remote="/NIDAQmxReader/data/real:o" index="2"
+               color="#0000FF" title="Force (N)" size="2" type="lines" />
+    </plot>
 <!-- ** Robot Position                                                                 -->    
 <!-- 
     <plot gridx="0" gridy="2" hspan="2" vspan="1"
