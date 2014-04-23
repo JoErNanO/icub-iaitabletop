@@ -35,7 +35,7 @@ REM ****** Experiment Parameters
 REM Experiment type:
 REM         1 - Progressive depth
 REM         2 - Receptive field
-SET /A EXPTYPE=2
+SET /A EXPTYPE=1
 REM Number of experiments to run. Set this!
 SET /A NUMEXP=4
 SET /A EXPHALF=%NUMEXP%/2
