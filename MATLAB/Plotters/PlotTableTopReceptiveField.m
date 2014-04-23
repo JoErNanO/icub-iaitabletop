@@ -35,6 +35,8 @@ ranges = zeros(2, size(nanovals, 2));
 meanval = mean(nanovals(:, fzIndex));
 ranges(1, 4) = meanval - abs(meanval / 4);
 ranges(2, 4) = meanval + abs(meanval / 4);
+% ranges(1, 4) = -1;
+% ranges(2, 4) = -0.1;
 indexes = FilterOutData(nanovals, ranges);
 
 
@@ -45,6 +47,7 @@ plotdata = ComputeReceptiveFieldData(tmp);
 meanvals = plotdata.mean;
 stdvals = plotdata.std;
 posvals = plotdata.pos;
+posvals = posvals / 1000;
 clear tmp;
 
 
@@ -84,7 +87,7 @@ end
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Compute the data for the Receptive field plot.
 function [res] = ComputeReceptiveFieldData(data)
-%ComputeReceptiveFieldData Computes the mean and standard deviation for
+%COMPUTERECEPTIVEFIELDDATA Computes the mean and standard deviation for
 %each Y position step during a receptive field experiment.
 
 
