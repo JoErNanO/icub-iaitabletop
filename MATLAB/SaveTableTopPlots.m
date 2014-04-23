@@ -60,7 +60,7 @@ for plot = 1:size(trialRange, 2)
     
     % Save to file
 	if strcmp(expType, 'progdepth')
-        imgPath = {[filepath '/SkinNano17'], [filepath '/Hystheresis'], [filepath '/SkinPos']};
+        imgPath = {[filepath '/SkinNano17'], [filepath '/HystheresisNano17'], [filepath '/HystheresisPos'], [filepath '/SkinPos']};
 	elseif strcmp(expType, 'recfield')
         imgPath = {[filepath '/SkinNano17'], [filepath '/ReceptiveField']};
     end

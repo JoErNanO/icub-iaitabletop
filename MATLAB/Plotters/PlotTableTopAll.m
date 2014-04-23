@@ -37,8 +37,9 @@ for trial = trialRange(1):trialRange(end)
     fprintf('Plotting results. \n');
     if strcmp(trialType, 'progdepth')
         PlotTableTopSkinNano17(1, alData, varargPlot{:});
-        PlotTableTopHystheresis(2, alData, varargPlot{:});
-        PlotTableTopSkinPosition(3, alData, varargPlotPos{:});
+        PlotTableTopHystheresis(2, alData, varargPlot{:}, 'Plot', 'nano');
+        PlotTableTopHystheresis(3, alData, varargPlot{:}, 'Plot', 'pos');
+        PlotTableTopSkinPosition(4, alData, varargPlotPos{:});
     elseif strcmp(trialType, 'recfield')
         PlotTableTopSkinNano17(1, alData, varargPlot{:});
         PlotTableTopReceptiveField(2, alData, varargPlot{:});

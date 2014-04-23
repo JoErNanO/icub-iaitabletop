@@ -43,16 +43,21 @@ endif(CMAKE_BUILD_TYPE MATCHES Debug)
 # ###########################################################################
 # iCub and YARP Includes
 # ###########################################################################
-find_package(YARP REQUIRED)
-find_package(ICUB REQUIRED)
+# Find packages
+find_package(YARP)
+find_package(ICUB)
+list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
+list(APPEND CMAKE_MODULE_PATH ${ICUB_MODULE_PATH})
+include(YarpInstallationHelpers)
+include(YarpInstallationHelpers) # pick up yarp's cmake scripts
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${YARP_MODULE_PATH})
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ICUB_MODULE_PATH})
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ICUB_LINK_FLAGS}")
+find_package(ICUBcontrib)
+list(APPEND CMAKE_MODULE_PATH ${ICUBCONTRIB_MODULE_PATH})
+include(ICUBcontribHelpers)
+include(ICUBcontribOptions)
+icubcontrib_set_default_prefix()
 
-include(iCubHelpers)
-
-include_directories(${YARP_INCLUDE_DIRS})
+# Include directories
 include_directories(${ICUB_INCLUDE_DIRS} ${YARP_INCLUDE_DIRS})
 # ###########################################################################
 
@@ -61,6 +66,7 @@ include_directories(${ICUB_INCLUDE_DIRS} ${YARP_INCLUDE_DIRS})
 # Project content
 # ###########################################################################
 # Subdirectories
+add_subdirectory(app/)  # Applications and contexts
 add_subdirectory(src/)  # Source code
 # ###########################################################################
 
