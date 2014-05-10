@@ -62,11 +62,17 @@ if strcmpi(p.Results.Plot, 'nano')
     histXAxisVals = ComputeHystheresisData(nanovals, expvals);
     meanFirstXAxis = repmat(histXAxisVals.meanvals.first(2:end-1, fzIndex), 1, size(meanFirstFtip, 2));
     meanLastXAxis = repmat(histXAxisVals.meanvals.last(2:end-1, fzIndex), 1, size(meanFirstFtip, 2));
+    
+    figName = ['TableTop fingertip and nano17 sensor results for trial n. ', data.trial];
+    plotTitle = ['\bf{Force} \rm{vs.} \bf{skin} \rm{values for trial n.} ', data.trial, ' (', robotName, ')'];
     xLabel = 'Force (N)';
 elseif strcmpi(p.Results.Plot, 'pos')
     histXAxisVals = ComputeHystheresisData(posvals, expvals);
     meanFirstXAxis = repmat(histXAxisVals.meanvals.first(2:end-1, posIndex) / 1000, 1, size(meanFirstFtip, 2));
     meanLastXAxis = repmat(histXAxisVals.meanvals.last(2:end-1, posIndex) / 1000, 1, size(meanFirstFtip, 2));
+    
+    figName = ['TableTop fingertip and position results for trial n. ', data.trial];
+    plotTitle = ['\bf{Force} \rm{vs.} \bf{position} \rm{values for trial n.} ', data.trial, ' (', robotName, ')'];
     xLabel = 'Position (mm)';
 end
 
@@ -77,7 +83,6 @@ colors = distinguishable_colors(20);
 
 
 %% Plot the data
-figName = ['TableTop fingertip and nano17 sensor results for trial n. ', data.trial];
 figure(figN);
 set(figN, 'Name', figName);
 set(figN, 'DefaultAxesColorOrder', colors);
@@ -108,7 +113,7 @@ if strcmpi(p.Results.Plot, 'nano')
     set(gca, 'XDir', 'reverse');
 end
 
-title(['\bf{Nano17 Force} \rm{vs.} \bf{skin} \rm{values for trial n.} ', data.trial, ' (', robotName, ')'], 'FontSize', fontsize);
+title(plotTitle, 'FontSize', fontsize);
 ylabel('Raw Skin', 'FontSize', fontsize);
 xlabel(xLabel, 'FontSize', fontsize);
 
@@ -132,58 +137,9 @@ if strcmpi(p.Results.Plot, 'nano')
     set(gca, 'XDir', 'reverse');
 end
 
-title(['\bf{Nano17 Force} \rm{vs.} \bf{skin} \rm{values for trial n.} ', data.trial, ' (', robotName, ')'], 'FontSize', fontsize);
+title(plotTitle, 'FontSize', fontsize);
 ylabel('Raw Skin', 'FontSize', fontsize);
 xlabel(xLabel, 'FontSize', fontsize);
 
 
 end
-
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Compute the data for hystheresis plot
-function [res] = ComputeHystheresisData(data, expvals)
-%ComputeHystheresisData Computes the means and standard deviations for the
-%first and last second of each progressive depth experiment step.
-%
-% OUTPUT:
-%           res - structure with fields:
-%               meanvals.first - n-by-1 array of mean values for the first
-%                   second of each step
-%               meanvals.last - n-by-1 array of mean values for the last
-%                   second of each step
-%               stdvals.first - n-by-1 array of std values for the first
-%                   second of each step
-%               stdvals.last - n-by-1 array of std values for the last
-%                   second of each step
-%               where n is the number of experiment steps
-%
-
-%% Compute means of first and last second of tap
-meanValsFirst = zeros(size(expvals, 1), size(data, 2));
-meanValsLast = zeros(size(meanValsFirst));
-stdValsFirst = zeros(size(meanValsFirst));
-stdValsLast = zeros(size(meanValsFirst));
-for i = 1:size(expvals, 1)
-    % First second
-    indexes = data(:, 1) > expvals(i, 3);                   % t > t_start
-    indexes = indexes & (data(:, 1) <= expvals(i, 3) + 1);	% t <= t_start + 1
-    meanValsFirst(i, :) = mean(data(indexes, :));
-    stdValsFirst(i, :) = std(data(indexes, :));
-    
-    % Last second
-    indexes = data(:, 1) >= expvals(i, 4) - 1;          % t >= t_end - 1               
-    indexes = indexes & (data(:, 1) < expvals(i, 4));     % t < t_end    
-    meanValsLast(i, :) = mean(data(indexes, :));
-    stdValsLast(i, :) = std(data(indexes, :));
-end
-
-
-%% Build result structure
-res.meanvals.first = meanValsFirst;
-res.meanvals.last = meanValsLast;
-res.stdvals.first = stdValsFirst;
-res.stdvals.last = stdValsLast;
-
-end
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
