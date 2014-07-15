@@ -6,23 +6,23 @@
 
 if [ "$TRAVIS_REPO_SLUG" == "JoErNanO/icub-iaitabletop" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
 
-  echo -e "Publishing doxygen...\n"
+    echo -e "Publishing doxygen...\n"
 
-  cd $PROJ_HOME
-  cp -R doc $HOME/doc-latest
+    cd $PROJ_HOME
+    cp -R doc $HOME/doc-latest
 
-  cd $HOME
-  git config --global user.email "travis@travis-ci.org"
-  git config --global user.name "travis-ci"
-  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/JoErNanO/icub-iaitabletop gh-pages > /dev/null
+    cd $HOME
+    git config --global user.email "travis@travis-ci.org"
+    git config --global user.name "travis-ci"
+    git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/JoErNanO/icub-iaitabletop gh-pages > /dev/null
 
-  cd gh-pages
-  git rm -rf *
-  cp -Rf $HOME/doc-latest .
-  git add -f .
-  git commit -m "Lastest doxygen on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
-  git push -fq origin gh-pages > /dev/null
+    cd gh-pages
+    git rm -rf *
+    cp -Rf $HOME/doc-latest doc
+    git add -f .
+    git commit -m "Lastest doxygen on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
+    git push -fq origin gh-pages > /dev/null
 
-  echo -e "Published doxygen to gh-pages.\n"
-  
+    echo -e "Published doxygen to gh-pages.\n"
+
 fi
