@@ -19,9 +19,6 @@
 # Build directory
 build
 
-# Documentation directory
-doc
-
 # Merge files
 *.orig
 
