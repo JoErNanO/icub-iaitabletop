@@ -9,7 +9,7 @@ if [ "$TRAVIS_REPO_SLUG" == "JoErNanO/icub-iaitabletop" ] && [ "$TRAVIS_PULL_REQ
     echo -e "Publishing doxygen...\n"
 
     cd $PROJ_HOME
-    cp -R doc $HOME/doc-latest
+    cp -R doc/html $HOME/html-latest
 
     cd $HOME
     git config --global user.email "travis@travis-ci.org"
@@ -17,8 +17,8 @@ if [ "$TRAVIS_REPO_SLUG" == "JoErNanO/icub-iaitabletop" ] && [ "$TRAVIS_PULL_REQ
     git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/JoErNanO/icub-iaitabletop gh-pages > /dev/null
 
     cd gh-pages
-    git rm -rf *
-    cp -Rf $HOME/doc-latest doc
+    git rm -rf *.html *.css *.png *.js search/
+    cp -Rf $HOME/html-latest .
     git add -f .
     git commit -m "Lastest doxygen on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
     git push -fq origin gh-pages > /dev/null
