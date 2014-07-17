@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014 Francesco Giovannini, iCub Facility - Istituto Italiano di Tecnologia
  * Authors: Francesco Giovannini
  * email:   francesco.giovannini@iit.it
- * website: www.robotcub.org 
+ * website: www.robotcub.org
  * Permission is granted to copy, distribute, and/or modify this program
  * under the terms of the GNU General Public License, version 2 or any
  * later version published by the Free Software Foundation.
@@ -45,7 +45,7 @@ using yarp::os::Time;
 
 
 /* *********************************************************************************************************************** */
-/* ******* Constructor                                                      ********************************************** */   
+/* ******* Constructor                                                      ********************************************** */
 IAITableTopControllerModule::IAITableTopControllerModule() : RFModule() {
     period = 0.1;
 #if IAITABLETOP_CONTROLLER_DEBUG
@@ -63,19 +63,19 @@ IAITableTopControllerModule::IAITableTopControllerModule() : RFModule() {
 
 
 /* *********************************************************************************************************************** */
-/* ******* Destructor                                                       ********************************************** */   
+/* ******* Destructor                                                       ********************************************** */
 IAITableTopControllerModule::~IAITableTopControllerModule() {}
 /* *********************************************************************************************************************** */
 
 
 /* *********************************************************************************************************************** */
-/* ******* Get Period                                                       ********************************************** */   
+/* ******* Get Period                                                       ********************************************** */
 double IAITableTopControllerModule::getPeriod() { return period; }
 /* *********************************************************************************************************************** */
 
 
 /* *********************************************************************************************************************** */
-/* ******* Configure module                                                 ********************************************** */   
+/* ******* Configure module                                                 ********************************************** */
 bool IAITableTopControllerModule::configure(ResourceFinder &rf){
     using std::string;
     using std::vector;
@@ -264,11 +264,11 @@ bool IAITableTopControllerModule::configure(ResourceFinder &rf){
 #if IAITABLETOP_CONTROLLER_DEBUG
     cout << dbgTag << "DEBUG: Generated parameter arrays contain: \n";
     for (size_t i = 0; i < positions.getX().size(); ++i) {
-        cout << "\t" << positions.getX()[i] << " " << positions.getY()[i] << " " << positions.getZ()[i] 
-            << " " << velocities.getX()[i] << " " << velocities.getY()[i] << " " << velocities.getZ()[i] 
-            << " " << accelerations.getX()[i] << " " << accelerations.getY()[i] << " " << accelerations.getZ()[i] 
-            << " " << decelerations.getX()[i] << " " << decelerations.getY()[i] << " " << decelerations.getZ()[i] 
-            << " " << timeIntervals[i] << "\n"; 
+        cout << "\t" << positions.getX()[i] << " " << positions.getY()[i] << " " << positions.getZ()[i]
+            << " " << velocities.getX()[i] << " " << velocities.getY()[i] << " " << velocities.getZ()[i]
+            << " " << accelerations.getX()[i] << " " << accelerations.getY()[i] << " " << accelerations.getZ()[i]
+            << " " << decelerations.getX()[i] << " " << decelerations.getY()[i] << " " << decelerations.getZ()[i]
+            << " " << timeIntervals[i] << "\n";
     }
 #endif
 
@@ -277,13 +277,13 @@ bool IAITableTopControllerModule::configure(ResourceFinder &rf){
     portIAITTPositionReadInPos.open("/IAITableTop/controller/position:i");
     portIAITTPositionReadInStatus.open("/IAITableTop/controller/status:i");
     portIAITTControllerOutExperimentStatus.open("/IAITableTop/controller/experiment/status:o");
-    
+
 
     /* ******* Create the semaphores                                ******* */
     serialMutex = new Semaphore();
 
 
-    /* ******* Open serial port interface                   ******* */ 
+    /* ******* Open serial port interface                   ******* */
     Property options;
     options.put("device", "serialport");
     options.fromConfigFile(serialPortConfFile, rf, false);
@@ -354,7 +354,7 @@ bool IAITableTopControllerModule::configure(ResourceFinder &rf){
     cout << dbgTag << "Waiting for port connections. \n";
     Network::connect(thPosRead->getOutStatusPort().getName(), portIAITTPositionReadInStatus.getName());
 
-    
+
     // Wait for the robot to reach the position described in the first experiment step
     if (!waitMoveDone(0.05, 10)) {
         cerr << dbgTag << "Could not complete the movement. \n";
@@ -370,7 +370,7 @@ bool IAITableTopControllerModule::configure(ResourceFinder &rf){
 
 
 /* *********************************************************************************************************************** */
-/* ******* Update    module                                                 ********************************************** */   
+/* ******* Update    module                                                 ********************************************** */
 bool IAITableTopControllerModule::updateModule() {
     using std::cout;
     using yarp::os::Network;
@@ -403,27 +403,27 @@ bool IAITableTopControllerModule::updateModule() {
         stepCounter++;
     } else if ((stepCounter >= 0) && (stepCounter < nSteps)) {
         cout << "\n" << dbgTag << "Performing experiment step n. " << stepCounter << "\n";
-        
+
         // Get step position
         Bottle cmdX, cmdY, cmdZ;
         buildMoveAbsX(stepCounter, cmdX);
         buildMoveAbsY(stepCounter, cmdY);
         buildMoveAbsZ(stepCounter, cmdZ);
-       
+
         // Move to step position
         cout << dbgTag << "Moving to X position. \n";
         if(!sendCommandToSerial(cmdX)) {
             cerr << dbgTag << "Could not send movement command to robot. \n";
             return false;
         }
-            
+
         cout << dbgTag << "Moving to Y position. \n";
         if(!sendCommandToSerial(cmdY)) {
             cerr << dbgTag << "Could not send movement command to robot. \n";
             return false;
         }
-            
-        cout << dbgTag << "Moving to Z position. \n";    
+
+        cout << dbgTag << "Moving to Z position. \n";
         if(!sendCommandToSerial(cmdZ)) {
             cerr << dbgTag << "Could not send movement command to robot. \n";
             return false;
@@ -466,16 +466,16 @@ bool IAITableTopControllerModule::updateModule() {
         return false;
     }
 
-    return true; 
+    return true;
 }
 /* *********************************************************************************************************************** */
 
 
 /* *********************************************************************************************************************** */
-/* ******* Interrupt module                                                 ********************************************** */   
+/* ******* Interrupt module                                                 ********************************************** */
 bool IAITableTopControllerModule::interruptModule() {
     cout << dbgTag << "Interrupting. \n";
-    
+
     // Interrupt ports
     portIAITTPositionReadInPos.interrupt();
     portIAITTPositionReadInStatus.interrupt();
@@ -488,10 +488,10 @@ bool IAITableTopControllerModule::interruptModule() {
 
 
 /* *********************************************************************************************************************** */
-/* ******* Close module                                                     ********************************************** */   
+/* ******* Close module                                                     ********************************************** */
 bool IAITableTopControllerModule::close() {
     cout << dbgTag << "Closing. \n";
-    
+
     // Homing robot
     Bottle cmd;
     cmd.addString("!992330702002000@@\n");
@@ -510,7 +510,7 @@ bool IAITableTopControllerModule::close() {
     // Close ports
     portIAITTPositionReadInPos.close();
     portIAITTPositionReadInStatus.close();
-    
+
     // Stop threads
     thPosRead->stop();
     thFTRead->stop();
@@ -532,14 +532,14 @@ bool IAITableTopControllerModule::close() {
     clientSerial.close();
 
     cout << dbgTag << "Closed. \n";
-    
+
     return true;
 }
 /* *********************************************************************************************************************** */
 
 
 /* *********************************************************************************************************************** */
-/* ******* Respond to rpc calls                                             ********************************************** */   
+/* ******* Respond to rpc calls                                             ********************************************** */
 bool IAITableTopControllerModule::respond(const Bottle &command, Bottle &reply) {
 
     return true;
@@ -565,7 +565,7 @@ bool IAITableTopControllerModule::waitMoveDone(const double &i_period, const dou
 
         // Read axis status
         Vector *reply = portIAITTPositionReadInStatus.read(true);
-        
+
         if ((reply) && (reply->size() > 0)) {
             // Check axis status - 0x1C == free
             done = (((*reply)[0] == 0x1C)
@@ -606,7 +606,7 @@ void IAITableTopControllerModule::buildMoveAbsX(const int &i_pos, yarp::os::Bott
     padString(4, velocities.getX()[i_pos], cmdX);
     padString(8, positions.getX()[i_pos], cmdX);
     cmdX << "@@\n";
-    
+
     // Add command to output bottle
     o_cmd.clear();
     o_cmd.addString(cmdX.str());
@@ -690,7 +690,7 @@ bool IAITableTopControllerModule::readDataFromSerial(void) {
 
 /* *********************************************************************************************************************** */
 /* ******* Read data from the serial port and return it.                    ********************************************** */
-bool IAITableTopControllerModule::readDataFromSerial(string &o_data) {
+bool IAITableTopControllerModule::readDataFromSerial(std::string &o_data) {
     Bottle reply;
     iSerialPort->receive(reply);
     if (reply.size() > 0) {
