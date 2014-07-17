@@ -16,7 +16,9 @@ In particular, this module needs the following to be enabled when compiling YARP
 
 
 ##Documentation
-To generate the documentation for this project run:
+The documentation for the project modules can be found [here](http://joernano.github.io/icub-iaitabletop/doc/html/modules.html)
+
+Altenatively you can generate the documentation locally by running:
 ```bash
     doxygen conf/Doxyfile
 ```
