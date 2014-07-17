@@ -4,7 +4,7 @@
 #   https://github.com/ReadyTalk/swt-bling/blob/master/.utility/push-javadoc-to-gh-pages.sh
 #   http://benlimmer.com/2013/12/26/automatically-publish-javadoc-to-gh-pages-with-travis-ci/
 
-if [ "$TRAVIS_REPO_SLUG" == "JoErNanO/icub-iaitabletop" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
+if [ "$TRAVIS_REPO_SLUG" == "JoErNanO/icub-iaitabletop" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_BUILD_TYPE" == "Release" ]; then
 
     echo -e "Publishing doxygen. \n"
 
