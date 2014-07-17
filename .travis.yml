@@ -54,4 +54,5 @@ script:
     - doxygen $PROJ_ROOT/conf/Doxyfile
 
 after_success:
+    - cd $PROJ_ROOT
     - .travis/push-doxygen-to-gh-pages.sh
