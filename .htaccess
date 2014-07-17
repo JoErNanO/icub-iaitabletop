@@ -1,2 +1,5 @@
-# Redirect index.html to point to modules
-Redirect /index.html /html/modules.html
+## Redirect index.html to point to modules
+#Redirect /index.html /html/modules.html
+
+# This allows you to redirect your entire website to any other domain
+Redirect 301 / html/index.html
