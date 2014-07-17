@@ -35,6 +35,9 @@ install:
     - sudo make install
     - cd $TRAV_ROOT
 
+    # Install doxygen
+    - sudo apt-get --force-yes install doxygen
+
 before_script:
     - cd $PROJ_ROOT
     - cmake --version
