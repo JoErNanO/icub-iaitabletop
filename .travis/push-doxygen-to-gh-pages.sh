@@ -19,7 +19,7 @@ if [ "$TRAVIS_REPO_SLUG" == "JoErNanO/icub-iaitabletop" ] && [ "$TRAVIS_PULL_REQ
 
     cd gh-pages
     git rm -rf *.html *.css *.png *.js search/
-    cp -Rf $HOME/html-latest/* .
+    cp -Rf $HOME/html-latest ./html
     git add -f .
     git commit -m "[DOC] Lastest doxygen on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
     git push -fq origin gh-pages > /dev/null
