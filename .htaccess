@@ -1,0 +1,2 @@
+# Redirect index.html to point to modules
+Redirect /index.html /html/modules.html
