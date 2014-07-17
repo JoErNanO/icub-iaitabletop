@@ -9,6 +9,7 @@ if [ "$TRAVIS_REPO_SLUG" == "JoErNanO/icub-iaitabletop" ] && [ "$TRAVIS_PULL_REQ
     echo -e "Publishing doxygen. \n"
 
     cd $PROJ_HOME
+    ls -al
     cp -R doc/html $HOME/html-latest
 
     cd $HOME

@@ -51,7 +51,8 @@ script:
     - sudo make install
 
     # Create doxygen documentation
-    - doxygen $PROJ_ROOT/conf/Doxyfile
+    - cd $PROJ_ROOT
+    - doxygen conf/Doxyfile
 
 after_success:
     # Publish doxygen documentation
