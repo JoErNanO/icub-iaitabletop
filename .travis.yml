@@ -38,7 +38,10 @@ install:
     - cd $TRAV_ROOT
 
     # Install doxygen
-    - sudo apt-get --force-yes install doxygen
+#    - sudo apt-get --force-yes install doxygen
+    wget http://mirrors.kernel.org/ubuntu/pool/main/d/doxygen/doxygen_1.8.4-1_amd64.deb
+    sudo dpkg -i ./doxygen_1.8.4-1_amd64.deb
+    sudo apt-get -f install 
 
 before_script:
     - cd $PROJ_ROOT

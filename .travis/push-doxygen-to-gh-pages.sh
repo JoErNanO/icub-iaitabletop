@@ -21,7 +21,7 @@ if [ "$TRAVIS_REPO_SLUG" == "JoErNanO/icub-iaitabletop" ] && [ "$TRAVIS_PULL_REQ
     mkdir -p doc/
     cp -Rf $HOME/doc-latest/html ./doc/html
     git add -f .
-    git commit -m "[GH-PAGES] [DOC] Lastest doxygen on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
+    git commit -m "[GH-PAGES] [DOC] Updated doxygen on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
     git push -fq origin gh-pages
 
     echo -e "Published doxygen to gh-pages. \n"
