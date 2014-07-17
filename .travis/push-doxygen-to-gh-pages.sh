@@ -6,7 +6,7 @@
 
 if [ "$TRAVIS_REPO_SLUG" == "JoErNanO/icub-iaitabletop" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
 
-    echo -e "Publishing doxygen...\n"
+    echo -e "Publishing doxygen. \n"
 
     cd $PROJ_HOME
     cp -R doc/html $HOME/html-latest
@@ -20,9 +20,9 @@ if [ "$TRAVIS_REPO_SLUG" == "JoErNanO/icub-iaitabletop" ] && [ "$TRAVIS_PULL_REQ
     git rm -rf *.html *.css *.png *.js search/
     cp -Rf $HOME/html-latest .
     git add -f .
-    git commit -m "Lastest doxygen on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
+    git commit -m "[DOC] Lastest doxygen on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
     git push -fq origin gh-pages > /dev/null
 
-    echo -e "Published doxygen to gh-pages.\n"
+    echo -e "Published doxygen to gh-pages. \n"
 
 fi
