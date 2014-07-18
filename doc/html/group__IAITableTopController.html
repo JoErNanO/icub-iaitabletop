@@ -119,8 +119,30 @@ Configuration Files</h1>
 <li>serialPortConfFile : The serial port configuration file.</li>
 <li>experimentConfFile : The experiment configuration file.</li>
 </ul>
-<p><b>Experiment Configuration File</b></p>
-<p>The module expects a configuration file for the experiment to be run using the robot. This file is structured as follows: </p>
+<p><b>Serial Port Configuration File</b><br/>
+ The skeleton of this file was taken from the YARP serialport module here: <a href="https://github.com/robotology/yarp/blob/master/src/modules/serial/serial.ini">https://github.com/robotology/yarp/blob/master/src/modules/serial/serial.ini</a> The parameters depend on the serial device connected to the host machine and must be configured accordingly. Below is an extract from the configuration file specific to the IAI Tabletop robot: </p>
+<pre class="fragment">verbose 0
+# The port name
+comport /dev/ttyUSB0
+#comport COM3
+# The baud rate
+baudrate 115200
+# The parity mode (EVEN, ODD, NONE)
+paritymode NONE
+# The number of data bits
+databits 8
+# The number of stop bits
+stopbits 1
+...
+</pre><p><b>Serial Port Name - comport</b><br/>
+ In particular, the <em>comport</em> parameter must be changed to reflect the name of the serial port mounted on the host machine. A typical Linux serial port configuration will look like this: </p>
+<pre class="fragment"># The port name - Linux
+comport /dev/ttyUSB0
+</pre><p>Whereas a typical Windows serial port configuration will look like this: </p>
+<pre class="fragment"># The port name - Windows
+comport COM3
+</pre><p><b>Experiment Configuration File</b><br/>
+ The module expects a configuration file for the experiment to be run using the robot. This file is structured as follows: </p>
 <pre class="fragment">[experiment]
 # Number of columns in the posVelAccDecTime array below:
 nCols 13
@@ -132,7 +154,7 @@ nCols 13
 posVelAccDecTime (
      coordinate_X ...Y ...Z velocity_X ...Y ...Z acceleration_X ...Y ...Z deceleration_X ...Y ...Z step_time \
      coordinate_X ...Y ...Z velocity_X ...Y ...Z acceleration_X ...Y ...Z deceleration_X ...Y ...Z step_time \
-     ... 
+     ...
 )
 </pre><h1><a class="anchor" id="tested_os_sec"></a>
 Tested OS</h1>
@@ -147,7 +169,7 @@ Example Instantiation of the Module</h1>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 18 2014 10:08:11 for iCub-IAITableTop by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 18 2014 15:03:55 for iCub-IAITableTop by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.4
 </small></address>
