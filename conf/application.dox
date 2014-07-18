@@ -1,0 +1,84 @@
+/*
+ * Copyright (C) 2013 Francesco Giovannini, iCub Facility - Istituto Italiano di Tecnologia
+ * Authors: Francesco Giovannini
+ * email:   francesco.giovannini@iit.it
+ * website: www.robotcub.org
+ * Permission is granted to copy, distribute, and/or modify this program
+ * under the terms of the GNU General Public License, version 2 or any
+ * later version published by the Free Software Foundation.
+ *
+ * A copy of the license can be found at
+ * http://www.robotcub.org/icub/license/gpl.txt
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details
+ */
+
+
+
+/**
+ * \defgroup tabletop_application Tabletop Applications
+ * \brief List of existing applications using the IAI Tabletop robot.
+ */
+
+/**
+ * @ingroup tabletop_application
+ * \defgroup tabletop_application_fingertips Fingertip Testing
+ *
+ * \brief This application is used to test the fingertip skin by applying controlled force on it.
+ *
+ * \section intro_sec Description
+ * In this application the IAI Tabletop robot is used to apply controlled force on an iCub fingertip, or any kind of skin patch, in order to test it.
+ * The force is controlled using a force/torque sensor which is used to probe the fingertip.
+ *
+ * The typical scenario includes four modules:
+ *  - \ref IAITableTopController
+ *  - <a href="http://joernano.github.io/icub-nidaqmx/doc/html/group__icub__NIDAQmxReader.html">NIDAQmxReader</a>
+ *  - robotInterface</a>
+ *  - <a href="http://wiki.icub.org/iCub_documentation/group__dataDumper.html">dataDumper</a>
+ *
+ *
+ * \section module_sec Module Breakdown
+ *
+ * Below is a block diagram showing the module architecture of the Fingertip Testing application.
+ * \image html FtipTestArch.png "Fingertip Testing module architecture."
+ * \image latex FtipTestArch.pdf "Fingertip Testing module architecture." width=6cm
+ *
+ * <h3>IAITableTopController</h3>
+ * During these experiments the robot usually moves over a set of discrete steps described by appropriately configuring the \ref IAITableTopController module.
+ * This module which sends position commands and receives status messages via USB serial port.
+ * It also constantly polls the robot position and outputs it on a YARP _BufferedPort_.
+ *
+ * <h3>NIDAQmxReader</h3>
+ * Data from the force/torque sensor is acquired via the <a href="http://joernano.github.io/icub-nidaqmx/doc/html/group__icub__NIDAQmxReader.html">NIDAQmxReader</a> module.
+ * This module relies upon the National Instruments proprietary data acquisition (NIDAQmx/NIDAQmxBase) library and C API.
+ * The data is sampled at \f$1kHz\f$ into a circular buffer of size \f$1M\f$ from which \f$1000\f$ samples are read at each module iteration.
+ *
+ * <h3>robotInterface</h3>
+ * The fingertip skin sensor is acquired by running a _robotInterface_ module which initialises the CAN bus communication with the fingertip.
+ * This module also creates an output _BufferedPort_ on which the sensor data is reversed.
+ * It is part of the standard iCub robot setup.
+ *
+ * The robotInterface must be configured to load a robot with only the skin devices we wish to test.
+ * This is done by appropriately modifying the xml files in <a href="https://github.com/robotology/icub-main/tree/master/app/robots/SkinTableTop">icub-main/app/robots/SkinTableTop/</a>.
+ *
+ * <h3>dataDumper</h3>
+ * The data acquired from all the sensors is then dumped to txt files using four instances of the <a href="http://wiki.icub.org/iCub_documentation/group__dataDumper.html">dataDumper</a> module.
+ *
+ *
+ *
+ * \section howtorun_sec How to Run the Application
+ *
+ * Customize the file app/applications/*.template for your specific platform before launching it.
+ *
+ *
+ * \author Francesco Giovannini (francesco.giovannini@iit.it)
+ *
+ * Copyright (C) 2014 Francesco Giovannini, iCub Facility - Istituto Italiano di Tecnologia
+ *
+ * CopyPolicy: Released under the terms of the GNU GPL v2.0.
+ *
+ * This file can be edited at conf/application.dox
+ */
