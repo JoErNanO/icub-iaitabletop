@@ -31,4 +31,4 @@ Project Info
 ============
 
 ####Build Status
-[![Build Status](https://travis-ci.org/JoErNanO/icub-iaitabletop.svg?branch=master)](https://travis-ci.org/JoErNanO/icub-iaitabletop)
+[![Build Status](https://travis-ci.org/robotology/icub-iaitabletop.svg?branch=master)](https://travis-ci.org/robotology/icub-iaitabletop)
