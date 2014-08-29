@@ -16,7 +16,7 @@ In particular, this module needs the following to be enabled when compiling YARP
 
 
 ##Documentation
-The documentation for the project modules can be found [here](http://joernano.github.io/icub-iaitabletop/doc/html/modules.html).
+The documentation for the project modules can be found [here](http://robotology.github.io/icub-iaitabletop/doc/html/modules.html).
 
 Altenatively you can generate the documentation locally by running:
 ```bash
